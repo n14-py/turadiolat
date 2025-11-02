@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
     
     <title>TuRadio.lat - Todas las radios de Latinoamérica en un solo lugar</title>
     <meta name="description" content="Escucha miles de estaciones de radio en vivo de Argentina, México, Colombia, Paraguay, Chile, Perú y todo LATAM. Filtrado por país y género.">
@@ -10,7 +10,10 @@
     <meta property="og:title" content="TuRadio.lat - Radios de LATAM en vivo" />
     <meta property="og:description" content="El portal líder para escuchar radios en vivo de toda Latinoamérica. Sintoniza gratis miles de estaciones." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://turadio.lat" /> <meta property="og:image" content="https://turadio.lat/images/og-image.png" /> <link rel="stylesheet" href="style.css">
+    <meta property="og:url" content="https://turadio.lat" />
+    <meta property="og:image" content="https://turadio.lat/images/og-image.png" />
+    
+    <link rel="stylesheet" href="style.css">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
@@ -22,13 +25,13 @@
 
 <header class="main-header">
     <nav class="container">
-        <a href="index.html" class="logo">
+        <a href="index.html?filtro=populares" class="logo" data-spa-link>
             <i class="fas fa-broadcast-tower"></i> TuRadio.lat
         </a>
         
         <ul class="nav-links desktop-menu">
-            <li><a href="index.html?filtro=populares" class="nav-link active" data-filtro="populares">Populares</a></li>
-            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos">Géneros</a></li>
+            <li><a href="index.html?filtro=populares" class="nav-link active" data-filtro="populares" data-spa-link>Populares</a></li>
+            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Géneros</a></li>
             
             <li class="dropdown">
                 <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
@@ -50,8 +53,8 @@
         <button id="menu-close" class="menu-close">&times;</button>
     </div>
     <div class="mobile-menu-content">
-        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares">Radios Populares</a>
-        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos">Buscar por Género</a>
+        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Radios Populares</a>
+        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Buscar por Género</a>
         <hr>
         <div id="mobile-paises">
              <a href="#" class="nav-link">Cargando países...</a>
@@ -71,17 +74,14 @@
             <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
             <button type="button" id="clear-search-button" style="display:none;"><i class="fas fa-times"></i></button>
         </form>
-        <h2 id="page-title">Cargando Estaciones...</h2>
         
-        <div id="stations-container">
+        <div id="page-container">
             <div id="loading-message" class="loader-container">
                 <div class="loader"></div>
                 <p style="margin-top: 1rem; color: var(--color-texto-secundario);">Sintonizando...</p>
             </div>
-            
-            </div>
-        
-    </div>
+        </div>
+        </div>
 </main>
 
 <div id="player-bar">
@@ -107,8 +107,8 @@
         <div class="footer-section links">
             <h4>Navegación</h4>
             <ul>
-                <li><a href="index.html?filtro=populares">Radios Populares</a></li>
-                <li><a href="index.html?filtro=generos">Buscar por Género</a></li>
+                <li><a href="index.html?filtro=populares" data-spa-link>Radios Populares</a></li>
+                <li><a href="index.html?filtro=generos" data-spa-link>Buscar por Género</a></li>
             </ul>
         </div>
         <div class="footer-section links-legal">
