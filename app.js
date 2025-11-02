@@ -16,8 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
         playerLogo: document.getElementById('player-logo'),
         playerNombre: document.getElementById('player-nombre'),
         playerPais: document.getElementById('player-pais'),
-        playerCloseBtn: document.getElementById('player-close-btn'), // Botón de CERRAR
-        playerToggleBtn: document.getElementById('player-toggle-btn'), // Botón de MAXIMIZAR/MINIMIZAR
+        playerCloseBtn: document.getElementById('player-close-btn'), 
+        playerToggleBtn: document.getElementById('player-toggle-btn'), 
+        playerInfo: document.getElementById('player-info'), // ¡AÑADIDO del HTML!
         dropdownPaises: document.getElementById('dropdown-paises'),
         mobilePaises: document.getElementById('mobile-paises'),
         searchInput: document.getElementById('search-input'),
@@ -31,9 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // --- Estado Global ---
-    // Guardamos la lista actual de radios aquí para que los botones de "Play" puedan encontrarlas
     let globalState = {
-        currentStations: []
+        currentStations: [], // Radios cargadas en el listado principal/recomendadas
+        currentPlaying: null // Objeto de la radio actual en reproducción
     };
 
     const closeMenu = () => {
@@ -44,38 +45,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 2. FUNCIONES DEL REPRODUCTOR DE AUDIO ---
     
     /**
+     * Intenta forzar el stream a HTTPS para evitar errores de contenido mixto.
+     */
+    function sanitizeStreamUrl(url) {
+        if (!url) return '';
+        if (url.startsWith('https://')) return url;
+        // Intenta forzar HTTPS para compatibilidad
+        return url.replace('http://', 'https://');
+    }
+    
+    /**
      * ¡FUNCIÓN CLAVE!
-     * Se llama al presionar "Escuchar" en cualquier tarjeta
+     * Lógica de reproducción con manejo de errores y fallback HTTP.
      */
     function playStation(station) {
         if (!elements.audioPlayer || !elements.playerBar) return;
+        
+        globalState.currentPlaying = station; 
 
-        // 1. Cargar y reproducir el audio
-        elements.audioPlayer.src = station.stream_url;
-        elements.audioPlayer.play()
+        // Intentamos primero con la URL sanitizada (HTTPS)
+        const httpsUrl = sanitizeStreamUrl(station.stream_url);
+        elements.audioPlayer.src = httpsUrl;
+        
+        const playPromise = elements.audioPlayer.play();
+        
+        playPromise
             .then(() => {
+                // Éxito: Actualizar las vistas del reproductor
                 const logo = station.logo || PLACEHOLDER_LOGO;
 
-                // 2. Actualizar la vista MINIMIZADA
                 elements.playerLogo.src = logo;
                 elements.playerLogo.onerror = () => { elements.playerLogo.src = PLACEHOLDER_LOGO; };
                 elements.playerNombre.textContent = station.nombre;
                 elements.playerPais.textContent = station.pais;
                 
-                // 3. Actualizar la vista EXPANDIDA
                 elements.playerExpandedLogo.src = logo;
                 elements.playerExpandedLogo.onerror = () => { elements.playerExpandedLogo.src = PLACEHOLDER_LOGO; };
                 elements.playerExpandedNombre.textContent = station.nombre;
                 elements.playerExpandedPais.textContent = station.pais;
                 elements.playerExpandedGeneros.textContent = (station.generos || "").split(',').join(', ');
                 
-                // 4. ¡LA MAGIA! Mostrar y EXPANDIR el reproductor
-                elements.playerBar.classList.add('active'); // Mostrar
-                elements.playerBar.classList.add('expanded'); // ¡Expandir automáticamente!
+                // Mostrar y MINIMIZAR el reproductor (para no tapar la lista)
+                elements.playerBar.classList.add('active');
+                elements.playerBar.classList.remove('expanded'); 
             })
             .catch(error => {
-                console.warn(`No se pudo reproducir: ${station.nombre}. (Error: ${error.message})`);
-                alert(`No se pudo reproducir la estación: ${station.nombre}. Puede que la transmisión no sea segura (HTTPS) o esté caída.`);
+                // Si falla (ej. Mixed Content Error o Autoplay Blocked)
+                if (httpsUrl !== station.stream_url) {
+                     console.warn(`Falló HTTPS. Intentando con HTTP original para ${station.nombre}...`);
+                     elements.audioPlayer.src = station.stream_url;
+                     
+                     elements.audioPlayer.play().catch(httpError => {
+                        console.error(`Error final al reproducir ${station.nombre}:`, httpError.message);
+                        alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir. Intenta abrirla en la página de detalle y haz clic en Reproducir.`);
+                     });
+                     return; 
+                }
+                
+                console.error(`Error al reproducir ${station.nombre}:`, error.message);
+                alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir. Esto suele deberse a problemas de streaming o bloqueo de contenido mixto.`);
             });
     }
 
@@ -89,7 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.audioPlayer.pause();
                 elements.audioPlayer.src = '';
                 elements.playerBar.classList.remove('active');
-                elements.playerBar.classList.remove('expanded'); // Asegurarse de que esté cerrado
+                elements.playerBar.classList.remove('expanded'); 
+                globalState.currentPlaying = null; // Reiniciar estado
             });
         }
         
@@ -99,11 +128,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 elements.playerBar.classList.toggle('expanded');
             });
         }
+        
+        // ¡NUEVO! Clic en la info minimizada para maximizar (Ideal para móvil)
+        if (elements.playerInfo && elements.playerBar) {
+            elements.playerInfo.addEventListener('click', () => {
+                if (globalState.currentPlaying) {
+                     elements.playerBar.classList.add('expanded');
+                }
+            });
+        }
     }
     
     // --- 3. FUNCIONES DE CARGA DE DATOS ---
 
     async function fetchPaises() {
+        // ... (fetchPaises se mantiene) ...
         if (!elements.dropdownPaises || !elements.mobilePaises) return;
 
         try {
@@ -160,12 +199,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const logo = station.logo || PLACEHOLDER_LOGO;
                 stationsHTML += `
                     <div class="station-card">
-                        <div class="station-info-link">
+                        <a href="index.html?radio=${station.uuid}" class="station-info-link" data-spa-link>
                             <img src="${logo}" alt="${station.nombre}" class="station-logo" onerror="this.onerror=null;this.src='${PLACEHOLDER_LOGO}';">
                             <h3 class="station-name" title="${station.nombre}">${station.nombre}</h3>
-                        </div>
+                        </a>
                         <p class="station-meta">${station.pais}</p>
-                        <button class="btn-play" data-uuid="${station.uuid}">
+                        <button class="btn-play" data-uuid="${station.uuid}" aria-label="Reproducir ${station.nombre}">
                             <i class="fas fa-play"></i>
                         </button>
                     </div>
@@ -202,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const tags = await response.json();
             
-            let tagsHTML = `<div class="tags-container" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">`;
+            let tagsHTML = `<div class="tags-container">`; // Removimos el estilo inline
             tags.forEach(tag => {
                 tagsHTML += `<a href="index.html?genero=${encodeURIComponent(tag.name)}" class="tag-btn" data-spa-link>
                                 ${tag.name} <span>${tag.stationcount}</span>
@@ -300,18 +339,151 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
+    
+    /**
+     * ¡NUEVA PÁGINA! Carga la vista de "Detalle de Radio" + Recomendadas.
+     */
+    async function loadStationInfoPage(uuid) {
+        showLoading("Cargando Información de la Radio...");
+        document.title = `Detalle de Estación - TuRadio.lat`;
+        
+        try {
+            // 1. Obtener la info de la radio actual
+            const radioResponse = await fetch(`${API_URL}/radio/${uuid}`);
+            if (!radioResponse.ok) throw new Error('Estación no encontrada');
+            const station = await radioResponse.json();
+            
+            // 2. Obtener radios recomendadas (mismo país, excluyendo la actual)
+            const recommendedParams = new URLSearchParams();
+            recommendedParams.append('pais', station.pais_code);
+            recommendedParams.append('excludeUuid', station.uuid);
+            recommendedParams.append('limite', 10); 
+            
+            const recommendedResponse = await fetch(`${API_URL}/radio/buscar?${recommendedParams.toString()}`);
+            const recommendedStations = recommendedResponse.ok ? await recommendedResponse.json() : [];
+            
+            // 3. Renderizar la página
+            const logo = station.logo || PLACEHOLDER_LOGO;
+            const genres = (station.generos || '').split(',').map(g => g.trim()).filter(g => g);
+
+            // Título de la página de detalle
+            let pageHTML = `<h2 id="page-title" style="margin-bottom: 0;">Sintonizando</h2>`;
+            
+            pageHTML += `
+                <div class="station-info-page">
+                    <div class="station-info-header">
+                        <img src="${logo}" alt="${station.nombre}" onerror="this.onerror=null;this.src='${PLACEHOLDER_LOGO}';" class="station-logo">
+                        <div class="station-info-header-text">
+                            <h1>${station.nombre}</h1>
+                            <p>${station.pais}</p>
+                            <button class="btn-play primary-play-btn" data-uuid="${station.uuid}" aria-label="Escuchar Ahora" style="margin-top: 10px;">
+                                <i class="fas fa-play"></i> <span>Escuchar Ahora</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="station-info-body">
+                        <div class="station-info-details">
+                            <h3>Detalles de la Estación</h3>
+                            <ul>
+                                <li><strong>País:</strong> ${station.pais}</li>
+                                <li><strong>Popularidad:</strong> ${station.popularidad} votos</li>
+                                <li><strong>Streaming:</strong> <a href="${station.stream_url}" target="_blank">Ver Enlace Original</a></li>
+                            </ul>
+                            
+                            <h3>Géneros</h3>
+                            <div class="station-info-tags">
+                                ${genres.map(g => `<a href="index.html?genero=${encodeURIComponent(g)}" class="tag-btn" data-spa-link>${g}</a>`).join('')}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="index.html" class="btn-back" data-spa-link style="margin-top: 2rem; display: inline-block;">
+                        <i class="fas fa-arrow-left"></i> Volver al listado principal
+                    </a>
+                </div>
+            `;
+            
+            // 4. Renderizar las Recomendaciones
+            if (recommendedStations.length > 0) {
+                globalState.currentStations = recommendedStations; // Cargar las recomendadas al estado
+                
+                let recHTML = '<div id="stations-container" class="recommended-grid">';
+                recommendedStations.forEach(station => {
+                    const recLogo = station.logo || PLACEHOLDER_LOGO;
+                    recHTML += `
+                        <div class="station-card small-card">
+                            <a href="index.html?radio=${station.uuid}" class="station-info-link" data-spa-link>
+                                <img src="${recLogo}" alt="${station.nombre}" class="station-logo" onerror="this.onerror=null;this.src='${PLACEHOLDER_LOGO}';">
+                                <h3 class="station-name" title="${station.nombre}">${station.nombre}</h3>
+                            </a>
+                            <p class="station-meta">${station.pais}</p>
+                            <button class="btn-play" data-uuid="${station.uuid}" aria-label="Reproducir ${station.nombre}">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                recHTML += '</div>';
+
+                pageHTML += `<h2 id="page-title" style="margin-top: 3rem;">Radios Recomendadas de ${station.pais}</h2>${recHTML}`;
+            }
+
+            elements.pageContainer.innerHTML = pageHTML;
+            document.title = `${station.nombre} - TuRadio.lat`;
+            
+            // 5. Re-adjuntar eventos de reproducción (para la principal y las recomendadas)
+            elements.pageContainer.querySelectorAll('.btn-play').forEach(button => {
+                button.addEventListener('click', () => {
+                    const stationUuid = button.dataset.uuid;
+                    // Busca en las recomendadas o en la radio principal
+                    let stationData = station.uuid === stationUuid ? station : globalState.currentStations.find(s => s.uuid === stationUuid);
+                    if (stationData) {
+                        playStation(stationData);
+                        // Asegurarse de que el reproductor esté activo
+                        elements.playerBar.classList.add('active');
+                        elements.playerBar.classList.remove('expanded');
+                    }
+                });
+            });
+            
+            // Si la radio actual es la que se está reproduciendo, iniciar la reproducción
+            if (globalState.currentPlaying && globalState.currentPlaying.uuid === station.uuid) {
+                 // Si ya está sonando, forzamos la barra a estar activa y minimizada
+                 elements.playerBar.classList.add('active');
+                 elements.playerBar.classList.remove('expanded');
+            } else {
+                 // Si NO está sonando, forzamos al usuario a darle play
+                 elements.playerBar.classList.remove('active');
+            }
+            
+        } catch (error) {
+            console.error(error);
+            elements.pageContainer.innerHTML = `<p class="no-stations-message" style="color: red;">No se encontró la estación solicitada.</p>`;
+        }
+    }
+
+
     /**
      * ROUTER PRINCIPAL
      * Decide qué página cargar
      */
     function loadContent(url) {
         const params = new URLSearchParams(url.search);
-
-        // La lógica de "Más Info" (?radio=uuid) se eliminó.
-        // El reproductor es ahora el "Más Info".
         
+        // 1. RUTA DE DETALLE (?radio=UUID)
+        const radioUuid = params.get('radio');
+        if (radioUuid) {
+            loadStationInfoPage(radioUuid);
+            // Al ir a la página de detalle, minimizamos la barra de abajo si está activa
+            if(elements.playerBar.classList.contains('active')) {
+                elements.playerBar.classList.remove('expanded');
+            }
+            return;
+        }
+
+        // 2. RUTAS DE LISTADO (Generos, Paises, Populares)
         if (params.get('filtro') === 'generos' || params.get('genero')) {
-            // Cargar lista de géneros o radios de un género
             if (params.get('genero')) {
                 fetchStationsList(url);
             } else {
@@ -385,7 +557,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 6. INICIAR LA APLICACIÓN ---
     initMenu();       
-    initPlayerControls(); // ¡Cambiado!
+    initPlayerControls(); 
     initNavigation(); 
     fetchPaises();    
     
