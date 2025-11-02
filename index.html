@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>TuRadio.lat - Todas las radios de Latinoamérica en un solo lugar</title>
+    <meta name="description" content="Escucha miles de estaciones de radio en vivo de Argentina, México, Colombia, Paraguay, Chile, Perú y todo LATAM. Filtrado por país y género.">
+    
+    <meta property="og:title" content="TuRadio.lat - Radios de LATAM en vivo" />
+    <meta property="og:description" content="El portal líder para escuchar radios en vivo de toda Latinoamérica. Sintoniza gratis miles de estaciones." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://turadio.lat" /> <meta property="og:image" content="https://turadio.lat/images/og-image.png" /> <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <link rel="icon" href="favicon.png" type="image/png">
+    
+    <script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="container">
+        <a href="index.html" class="logo">
+            <i class="fas fa-broadcast-tower"></i> TuRadio.lat
+        </a>
+        
+        <ul class="nav-links desktop-menu">
+            <li><a href="index.html?filtro=populares" class="nav-link active" data-filtro="populares">Populares</a></li>
+            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos">Géneros</a></li>
+            
+            <li class="dropdown">
+                <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
+                <ul id="dropdown-paises" class="dropdown-menu">
+                    <li><a href="#">Cargando...</a></li>
+                </ul>
+            </li>
+            <li><a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a></li>
+        </ul>
+
+        <button id="menu-toggle" class="menu-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+</header>
+
+<div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-header">
+        <button id="menu-close" class="menu-close">&times;</button>
+    </div>
+    <div class="mobile-menu-content">
+        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares">Radios Populares</a>
+        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos">Buscar por Género</a>
+        <hr>
+        <div id="mobile-paises">
+             <a href="#" class="nav-link">Cargando países...</a>
+        </div>
+        <hr>
+        <a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a>
+    </div>
+</div>
+
+<div id="overlay" class="overlay"></div>
+
+<main class="container">
+    <div class="main-content">
+        
+        <form id="search-form" class="search-form" action="index.html" method="GET">
+            <input type="text" id="search-input" name="query" placeholder="Buscar radios, países o géneros..." value="" required>
+            <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
+            <button type="button" id="clear-search-button" style="display:none;"><i class="fas fa-times"></i></button>
+        </form>
+        <h2 id="page-title">Cargando Estaciones...</h2>
+        
+        <div id="stations-container">
+            <div id="loading-message" class="loader-container">
+                <div class="loader"></div>
+                <p style="margin-top: 1rem; color: var(--color-texto-secundario);">Sintonizando...</p>
+            </div>
+            
+            </div>
+        
+    </div>
+</main>
+
+<div id="player-bar">
+    <div class="player-info">
+        <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
+        <div class="player-info-text">
+            <h4 id="player-nombre">Selecciona una radio</h4>
+            <p id="player-pais">...para comenzar a escuchar</p>
+        </div>
+    </div>
+    <div class="player-controls">
+        <audio id="audio-player" controls></audio>
+        <button id="player-close" class="player-close" aria-label="Cerrar reproductor">&times;</button>
+    </div>
+</div>
+
+<footer class="main-footer">
+    <div class="container footer-content">
+        <div class="footer-section about">
+            <h3>TuRadio.lat</h3>
+            <p>El portal de radios #1 de Latinoamérica. Sintoniza miles de estaciones en vivo. Una plataforma de LFAF Tech.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Navegación</h4>
+            <ul>
+                <li><a href="index.html?filtro=populares">Radios Populares</a></li>
+                <li><a href="index.html?filtro=generos">Buscar por Género</a></li>
+            </ul>
+        </div>
+        <div class="footer-section links-legal">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                <li><a href="terminos.html">Términos y Condiciones</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social">
+            <h4>Síguenos</h4>
+            <ul style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                <li><a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2024 TuRadio.lat | Una plataforma de <a href="https://lfaftech.com" target="_blank">LFAF Tech</a>
+    </div>
+</footer>
+
+</body>
+</html>
