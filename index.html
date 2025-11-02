@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>TuRadio.lat - Todas las radios de Latinoamérica en un solo lugar</title>
     <meta name="description" content="Escucha miles de estaciones de radio en vivo de Argentina, México, Colombia, Paraguay, Chile, Perú y todo LATAM. Filtrado por país y género.">
@@ -20,7 +20,21 @@
     <link rel="icon" href="favicon.png" type="image/png">
     
     <script src="app.js" defer></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J80VTC4S5M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-J80VTC4S5M');
+</script>
+
 </head>
+
+
+
 <body>
 
 <header class="main-header">
@@ -81,23 +95,45 @@
                 <p style="margin-top: 1rem; color: var(--color-texto-secundario);">Sintonizando...</p>
             </div>
         </div>
-        </div>
+        
+    </div>
 </main>
 
-<div id="player-bar">
-    <div class="player-info">
-        <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
-        <div class="player-info-text">
-            <h4 id="player-nombre">Selecciona una radio</h4>
-            <p id="player-pais">...para comenzar a escuchar</p>
+<div id="player-bar"> <div class="player-content-wrapper">
+        
+        <div class="player-minimized-view">
+            <div class="player-info">
+                <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
+                <div class="player-info-text">
+                    <h4 id="player-nombre">Selecciona una radio</h4>
+                    <p id="player-pais">...para comenzar a escuchar</p>
+                </div>
+            </div>
+            
+            <div class="player-controls">
+                <audio id="audio-player" controls></audio>
+            </div>
+            
+            <div class="player-buttons">
+                <button id="player-toggle-btn" class="player-btn" aria-label="Expandir reproductor">
+                    <i class="fas fa-chevron-up"></i>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <button id="player-close-btn" class="player-btn" aria-label="Cerrar reproductor">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="player-controls">
-        <audio id="audio-player" controls></audio>
-        <button id="player-close" class="player-close" aria-label="Cerrar reproductor">&times;</button>
+
+        <div class="player-expanded-view">
+            <img id="player-expanded-logo" src="images/placeholder-radio.png" alt="logo grande">
+            <h2 id="player-expanded-nombre">Radio Nombre</h2>
+            <p id="player-expanded-pais">País</p>
+            <p id="player-expanded-generos">Géneros</p>
+        </div>
+
     </div>
 </div>
-
 <footer class="main-footer">
     <div class="container footer-content">
         <div class="footer-section about">
