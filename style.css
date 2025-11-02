@@ -1,5 +1,5 @@
 /* ============================================= */
-/* --- TURADIO.LAT v2.1 (Mejoras Móvil/SPA) --- */
+/* --- TURADIO.LAT v2.4 (Controles Custom y Paginación) --- */
 /* ============================================= */
 
 /* --- 1. VARIABLES Y RESET GLOBAL --- */
@@ -21,7 +21,6 @@
 
     /* Altura del reproductor */
     --player-height-minimized: 90px;
-    --player-height-expanded: 95vh; /* 95% de la altura en móvil para no tapar notch */
 }
 
 /* --- RESET Y BASE --- */
@@ -41,7 +40,7 @@ a:hover { color: var(--color-primario-hover); text-decoration: none; }
 img { max-width: 100%; height: auto; display: block; }
 
 /* ============================================= */
-/* --- 2. HEADER Y NAVEGACIÓN --- */
+/* --- 2. HEADER Y NAVEGACIÓN (Sin cambios) --- */
 /* ============================================= */
 .main-header {
     background-color: var(--color-tarjeta);
@@ -90,29 +89,100 @@ img { max-width: 100%; height: auto; display: block; }
 #clear-search-button:hover { background-color: #8a8a8a; }
 
 /* Contenedor de página (Loader, Estaciones, Info) */
-#page-container {
-    /* Este div contendrá todo el contenido dinámico */
-}
-
 #page-title { font-size: 2.2rem; font-family: var(--fuente-principal); font-weight: 700; border-bottom: 3px solid var(--color-primario); display: inline-block; padding-bottom: 0.5rem; margin-bottom: 2rem; color: var(--color-texto-principal); }
 #stations-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
-.station-card { background-color: var(--color-tarjeta); border-radius: var(--radio-borde); overflow: hidden; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; text-align: center; border: 1px solid var(--borde-suave); transition: background-color 0.2s ease, transform 0.2s ease; }
+.station-card { 
+    background-color: var(--color-tarjeta); 
+    border-radius: var(--radio-borde); 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding: 1.5rem; 
+    text-align: center; 
+    border: 2px solid transparent; /* Borde para el estado "is-playing" */
+    transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s; 
+}
 .station-card:hover { background-color: var(--color-tarjeta-hover); transform: translateY(-5px); }
-.station-logo { width: 120px; height: 120px; border-radius: 50%; border: 2px solid var(--borde-suave); margin-bottom: 1rem; object-fit: cover; background-color: #333; }
+.station-card.is-playing {
+    border-color: var(--color-primario); /* Resaltar la que está sonando */
+    background-color: #2a164f; /* Fondo ligeramente más oscuro/activo */
+}
+
+.station-logo { 
+    /* Las imágenes ya están centradas por 'align-items: center' en el padre */
+    width: 120px; 
+    height: 120px; 
+    border-radius: 50%; 
+    border: 2px solid var(--borde-suave); 
+    margin-bottom: 1rem; 
+    object-fit: cover; 
+    background-color: #333;
+    /* Aseguramos que el logo no se extienda horizontalmente */
+    display: inline-block; 
+}
 .station-name { font-size: 1.1rem; font-weight: 600; color: var(--color-texto-principal); margin-bottom: 0.25rem; width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .station-meta { font-size: 0.85rem; color: var(--color-texto-secundario); margin-bottom: 1rem; }
-.btn-play { display: inline-flex; align-items: center; justify-content: center; background-color: var(--color-primario); color: var(--color-texto-principal); border: none; border-radius: 50px; padding: 10px 20px; font-weight: 600; cursor: pointer; transition: background-color 0.2s ease; }
+.btn-play { 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    background-color: var(--color-primario); 
+    color: var(--color-texto-principal); 
+    border: none; 
+    border-radius: 50px; 
+    padding: 10px 20px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease; 
+}
 .btn-play:hover { background-color: var(--color-primario-hover); color: var(--color-texto-principal); }
-.btn-play .fa-play { margin-right: 0; } /* Ocultar el margen aquí, se usa solo en el botón de detalle */
-
-/* Estilos de la tarjeta de radio para "Más Info" */
+.btn-play .fa-play { margin-right: 0; } 
 .station-card .station-info-link { display: block; text-decoration: none; color: inherit; text-align: center; }
-.station-card .btn-play span { display: none; } /* Ocultar texto en tarjetas */
+.station-card .btn-play span { display: none; } 
 
 .loader-container { text-align: center; padding: 4rem 0; grid-column: 1 / -1; }
 .loader { border: 6px solid var(--color-fondo); border-top: 6px solid var(--color-primario); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; display: inline-block; }
 @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .no-stations-message { grid-column: 1 / -1; text-align: center; color: var(--color-texto-secundario); padding: 4rem 0; font-size: 1.1rem; border: 2px dashed var(--borde-suave); border-radius: var(--radio-borde); background: var(--color-tarjeta); }
+
+/* Paginación */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+.pagination-btn {
+    background-color: var(--color-tarjeta);
+    color: var(--color-texto-principal);
+    border: 1px solid var(--borde-suave);
+    border-radius: var(--radio-borde);
+    padding: 10px 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.pagination-btn:hover:not(.disabled) {
+    background-color: var(--color-primario-hover);
+}
+.pagination-btn.active {
+    background-color: var(--color-primario);
+    border-color: var(--color-primario);
+}
+.pagination-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Conteo Total */
+#radio-count-info {
+    text-align: center;
+    color: var(--color-texto-secundario);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
 
 /* --- Estilos de Géneros (Tags) --- */
 .tags-container {
@@ -165,19 +235,14 @@ img { max-width: 100%; height: auto; display: block; }
     z-index: 1001;
     padding: 0 1rem;
     
-    /* ¡Añadimos altura y transición! */
-    height: var(--player-height-minimized);
-    transform: translateY(100%); /* Oculto por defecto */
-    transition: transform 0.4s ease-out, height 0.4s ease-out;
+    /* Altura fija */
+    height: var(--player-height-minimized); 
+    transform: translateY(100%); 
+    transition: transform 0.4s ease-out; 
 }
 
 #player-bar.active {
-    transform: translateY(0); /* ¡Aparece! */
-}
-
-/* --- Vista Expandida --- */
-#player-bar.expanded {
-    height: var(--player-height-expanded);
+    transform: translateY(0); 
 }
 
 .player-content-wrapper {
@@ -186,7 +251,7 @@ img { max-width: 100%; height: auto; display: block; }
     flex-direction: column;
 }
 
-/* --- Vista Minimizada (la barra superior) --- */
+/* --- Vista Minimizada --- */
 .player-minimized-view {
     display: flex;
     align-items: center;
@@ -196,14 +261,13 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .player-info {
-    /* Permitir clic para expandir en móvil */
     cursor: pointer; 
     display: flex;
     align-items: center;
     min-width: 150px;
     flex-shrink: 1;
     overflow: hidden;
-    padding-right: 10px; /* Espacio antes de los controles */
+    padding-right: 10px; 
 }
 .player-info img {
     width: 60px;
@@ -212,7 +276,7 @@ img { max-width: 100%; height: auto; display: block; }
     margin-right: 1rem;
 }
 .player-info-text {
-    overflow: hidden; /* Para que el texto se trunque */
+    overflow: hidden;
 }
 .player-info-text h4 {
     color: var(--color-texto-principal);
@@ -234,14 +298,30 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 1rem;
     flex-grow: 1;
     justify-content: center;
+    /* Ocultar el control nativo de audio */
+    #audio-player {
+        display: none;
+    }
 }
 
-.player-controls audio {
-    width: 100%;
-    max-width: 500px;
-    height: 40px;
-    /* Invertimos y coloreamos el reproductor nativo */
-    filter: invert(90%) sepia(60%) saturate(600%) hue-rotate(230deg);
+/* Estilo para el nuevo botón customizado de Play/Pause */
+#play-pause-btn {
+    background-color: var(--color-primario);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+#play-pause-btn:hover {
+    background-color: var(--color-primario-hover);
+}
+#play-pause-btn .fas {
+    /* Ajuste para centrar el icono de Play */
+    line-height: 0; 
 }
 
 .player-buttons {
@@ -260,64 +340,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .player-btn:hover {
     color: var(--color-texto-principal);
-}
-/* Botón de maximizar/minimizar */
-#player-toggle-btn .fa-chevron-down {
-    display: none;
-}
-#player-bar.expanded #player-toggle-btn .fa-chevron-up {
-    display: none;
-}
-#player-bar.expanded #player-toggle-btn .fa-chevron-down {
-    display: block;
-}
-
-
-/* --- Vista Expandida (Contenido Oculto) --- */
-.player-expanded-view {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Alineamos arriba */
-    flex-grow: 1;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-    padding: 2rem 1rem;
-    overflow-y: auto; /* Permitir scroll si el contenido es muy grande */
-}
-#player-bar.expanded .player-expanded-view {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0.2s; /* Aparece después de expandir */
-}
-
-#player-expanded-logo {
-    width: 40vh; /* Se ajusta a la altura del viewport */
-    max-width: 250px;
-    height: 40vh;
-    max-height: 250px;
-    border-radius: var(--radio-borde);
-    margin-bottom: 2rem;
-    box-shadow: var(--sombra-fuerte);
-}
-#player-expanded-nombre {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-texto-principal);
-    text-align: center;
-}
-#player-expanded-pais {
-    font-size: 1.5rem;
-    color: var(--color-texto-secundario);
-    margin-bottom: 0.5rem;
-}
-#player-expanded-generos {
-    font-size: 1.1rem;
-    color: var(--color-texto-secundario);
-    font-style: italic;
-    text-transform: capitalize;
-    text-align: center;
 }
 
 
@@ -347,6 +369,9 @@ img { max-width: 100%; height: auto; display: block; }
     border: 2px solid var(--borde-suave);
     flex-shrink: 0;
 }
+.station-info-header-text {
+    flex-grow: 1;
+}
 .station-info-header-text h1 {
     font-size: 2.5rem;
     color: var(--color-texto-principal);
@@ -358,11 +383,12 @@ img { max-width: 100%; height: auto; display: block; }
     font-weight: 500;
 }
 
-/* Estilo del botón de Play grande */
+/* Estilo del botón de Play/Pause grande */
 .station-info-header-text .primary-play-btn {
     margin-top: 15px;
     font-size: 1.2rem;
     padding: 12px 25px;
+    min-width: 180px; /* Ancho fijo para mantener la forma */
 }
 .station-info-header-text .primary-play-btn span {
     display: inline; 
@@ -417,14 +443,21 @@ img { max-width: 100%; height: auto; display: block; }
     background-color: var(--color-primario-hover);
     color: var(--color-texto-principal);
 }
+.btn-back-container {
+    margin-top: 2rem;
+}
 .btn-back {
     display: inline-block;
-    margin-top: 2rem;
     font-weight: 600;
     color: var(--color-texto-secundario);
+    padding: 10px 15px;
+    background-color: var(--color-tarjeta-hover);
+    border-radius: var(--radio-borde);
+    transition: background-color 0.2s;
 }
 .btn-back:hover {
     color: var(--color-texto-principal);
+    background-color: #333;
 }
 
 /* --- Recomendaciones --- */
@@ -458,9 +491,8 @@ img { max-width: 100%; height: auto; display: block; }
 
 
 /* ============================================= */
-/* --- 6. FOOTER --- */
+/* --- 6. FOOTER (Sin cambios) --- */
 /* ============================================= */
-/* ... (Se mantiene igual) ... */
 .main-footer {
     background-color: #0a0a0a;
     color: #888;
@@ -532,43 +564,31 @@ img { max-width: 100%; height: auto; display: block; }
         height: var(--player-height-minimized);
     }
     .player-info {
-        width: calc(100% - 90px); /* Espacio para los 2 botones */
+        width: calc(100% - 150px); /* Más espacio para los controles */
+    }
+    .player-controls {
+        width: 150px;
+        max-width: 150px;
+        justify-content: flex-end;
+    }
+    #play-pause-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
     }
     .player-buttons {
-        width: 90px;
+        width: 60px;
         justify-content: flex-end;
         gap: 0.5rem;
     }
-    .player-controls {
-        width: 100%;
-        max-width: 100%;
-        gap: 0;
-        margin-top: 10px;
-    }
-    .player-controls audio {
-        max-width: 100%;
-        height: 30px;
-    }
-    #player-bar.expanded {
-        height: var(--player-height-expanded); /* Usamos la variable de 95vh */
-    }
-    .player-expanded-view { padding: 1rem; }
-    #player-expanded-logo { 
-        width: 45vw; height: 45vw; 
-        max-width: 200px; max-height: 200px; 
-        margin-bottom: 1rem;
-    }
-    #player-expanded-nombre { font-size: 1.8rem; }
-    #player-expanded-pais { font-size: 1.2rem; }
-    #player-expanded-generos { font-size: 0.9rem; }
-
+    
     /* Página Detalle en Móvil */
     .station-info-page { padding: 1.5rem; }
     .station-info-header { flex-direction: column; text-align: center; gap: 1rem; }
     .station-info-header img { width: 120px; height: 120px; }
     .station-info-header-text h1 { font-size: 2rem; }
     .station-info-header-text p { font-size: 1rem; }
-    .station-info-details li strong { min-width: 90px; } /* Ajuste para el texto de detalle */
+    .station-info-details li strong { min-width: 90px; } 
     
     /* Recomendados en Móvil */
     #stations-container.recommended-grid {
@@ -581,10 +601,6 @@ img { max-width: 100%; height: auto; display: block; }
     .menu-toggle { display: none; }
     .mobile-menu { display: none; }
     .overlay { display: none !important; }
-    /* Altura de reproductor expandido en PC */
-    :root {
-        --player-height-expanded: 70vh; 
-    }
 }
 
 @media (max-width: 1023px) {
