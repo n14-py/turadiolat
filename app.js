@@ -84,59 +84,77 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Inicia la reproducción de una estación.
      */
-    async function playStation(station) {
-        if (!elements.audioPlayer || !elements.playerBar) return;
-        
-        globalState.currentPlaying = station; 
-        globalState.isPaused = false;
-        
-        // 1. Manejo del logo (Intento de obtener mejor logo si falta)
-        let finalLogo = station.logo || PLACEHOLDER_LOGO;
-        if (!station.logo || station.logo === PLACEHOLDER_LOGO) {
-            const betterLogo = await getBetterLogo(station.uuid);
-            if (betterLogo) {
-                finalLogo = betterLogo;
-                station.logo = betterLogo; // Actualizar el objeto station en memoria
-            }
+// BUSCAR Y REEMPLAZAR LA FUNCIÓN playStation COMPLETA (LÍNEA 75 A 148 APROX.)
+
+/**
+ * Inicia la reproducción de una estación.
+ */
+async function playStation(station) {
+    if (!elements.audioPlayer || !elements.playerBar || !elements.playPauseBtn) return;
+    
+    globalState.currentPlaying = station; 
+    globalState.isPaused = false;
+    
+    // Añadir clase de carga e inhabilitar temporalmente el botón
+    elements.playPauseBtn.classList.add('is-loading');
+    elements.playPauseBtn.disabled = true;
+
+    // 1. Manejo del logo (Intento de obtener mejor logo si falta)
+    let finalLogo = station.logo || PLACEHOLDER_LOGO;
+    if (!station.logo || station.logo === PLACEHOLDER_LOGO) {
+        const betterLogo = await getBetterLogo(station.uuid);
+        if (betterLogo) {
+            finalLogo = betterLogo;
+            station.logo = betterLogo; // Actualizar el objeto station en memoria
         }
+    }
 
-        // 2. Actualizar la UI
-        elements.playerLogo.src = finalLogo;
-        elements.playerLogo.onerror = () => { elements.playerLogo.src = PLACEHOLDER_LOGO; };
-        elements.playerNombre.textContent = station.nombre;
-        elements.playerPais.textContent = station.pais;
-        setPauseIcon(); 
+    // 2. Actualizar la UI
+    elements.playerLogo.src = finalLogo;
+    elements.playerLogo.onerror = () => { elements.playerLogo.src = PLACEHOLDER_LOGO; };
+    elements.playerNombre.textContent = station.nombre;
+    elements.playerPais.textContent = station.pais;
+    setPauseIcon(); 
 
-        // 3. Establecer la fuente de audio (con fallback HTTPS)
-        const httpsUrl = sanitizeStreamUrl(station.stream_url);
-        elements.audioPlayer.src = httpsUrl;
-        
-        // 4. Iniciar la reproducción con un pequeño delay de carga
-        // Esto evita que el navegador muestre un error antes de que el stream se conecte.
-        setTimeout(() => {
-            elements.audioPlayer.play()
-                .then(() => {
-                    elements.playerBar.classList.add('active');
-                })
-                .catch(error => {
-                    // Fallback a HTTP si HTTPS falla
-                    if (httpsUrl !== station.stream_url) {
-                         elements.audioPlayer.src = station.stream_url;
-                         elements.audioPlayer.play().catch(httpError => {
-                            console.error(`Error final al reproducir ${station.nombre}:`, httpError.message);
-                            setPlayIcon(); 
-                            globalState.isPaused = true;
-                            alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir.`);
-                         });
-                         return; 
-                    }
+    // 3. Establecer la fuente de audio (con fallback HTTPS)
+    const httpsUrl = sanitizeStreamUrl(station.stream_url);
+    elements.audioPlayer.src = httpsUrl;
+    
+    // 4. Iniciar la reproducción con un pequeño delay de carga
+    setTimeout(() => {
+        elements.audioPlayer.play()
+            .then(() => {
+                elements.playerBar.classList.add('active');
+                // Quitar clase de carga al iniciar exitosamente
+                elements.playPauseBtn.classList.remove('is-loading');
+                elements.playPauseBtn.disabled = false;
+            })
+            .catch(error => {
+                // Fallback a HTTP si HTTPS falla
+                if (httpsUrl !== station.stream_url) {
+                    elements.audioPlayer.src = station.stream_url;
+                    elements.audioPlayer.play().then(() => {
+                        elements.playerBar.classList.add('active');
+                    }).catch(httpError => {
+                        console.error(`Error final al reproducir ${station.nombre}:`, httpError.message);
+                        setPlayIcon(); 
+                        globalState.isPaused = true;
+                        alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir.`);
+                    });
+                } else {
                     console.error(`Error al reproducir ${station.nombre}:`, error.message);
                     setPlayIcon();
                     globalState.isPaused = true;
                     alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir. Problema de streaming.`);
-                });
-        }, 300); // 300ms de delay/carga simulada
-    }
+                }
+                // Quitar clase de carga después del intento fallido/fallback
+                elements.playPauseBtn.classList.remove('is-loading');
+                elements.playPauseBtn.disabled = false;
+            });
+    }, 300); // 300ms de delay/carga simulada
+}
+
+// RESTO DE CÓDIGO JS SIN CAMBIOS EN ESTE PASO
 
     function pauseStation() {
         if (elements.audioPlayer) {

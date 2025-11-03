@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preguntas Frecuentes (FAQ) - Guía de Uso de TuRadio.lat</title>
+    <meta name="description" content="Respuestas a las preguntas más comunes sobre cómo escuchar radios de Latinoamérica, qué hacer si un stream no funciona (error HTTP/HTTPS) o cómo solicitar la adición de una nueva estación a TuRadio.lat.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <script src="app.js" defer></script>
+    <link rel="sitemap" type="application/xml" title="Sitemap Noticias" href="https://lfaftechapi.onrender.com/api/sitemap.xml" />
+    <link rel="sitemap" type="application/xml" title="Sitemap Radios" href="https://lfaftechapi.onrender.com/api/radio/sitemap.xml" />
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="container">
+        <a href="index.html?filtro=populares" class="logo" data-spa-link>
+            <i class="fas fa-broadcast-tower"></i> TuRadio.lat
+        </a>
+        
+        <ul class="nav-links desktop-menu">
+            <li><a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Populares</a></li>
+            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Géneros</a></li>
+            <li class="dropdown">
+                <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
+                <ul id="dropdown-paises" class="dropdown-menu"><li><a href="#">Cargando...</a></li></ul>
+            </li>
+            <li><a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a></li>
+        </ul>
+
+        <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
+    </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-header"><button id="menu-close" class="menu-close">&times;</button></div>
+    <div class="mobile-menu-content">
+        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Radios Populares</a>
+        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Buscar por Género</a>
+        <hr><div id="mobile-paises"><a href="#" class="nav-link">Cargando países...</a></div><hr>
+        <a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a>
+    </div>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<main class="container">
+    <div class="main-content">
+        <div class="static-page-container">
+            <h1 style="color: var(--color-primario); border-bottom: 3px solid var(--color-primario); padding-bottom: 10px; margin-bottom: 1.5rem;">Preguntas Frecuentes (FAQ)</h1>
+            <p>Aquí respondemos las dudas más comunes sobre el uso de nuestra plataforma para escuchar radios en vivo de Latinoamérica (Argentina, Paraguay, Chile, México, etc.).</p>
+
+            <h2>¿Cómo Funciona TuRadio.lat? (SEO Key: Escuchar radio online LATAM)</h2>
+            <p>TuRadio.lat es un agregador de streams de radio. Mantenemos una base de datos actualizada con los enlaces de transmisión pública de miles de emisoras. Cuando haces clic en 'Reproducir', tu dispositivo se conecta directamente al servidor de la estación de radio, y nuestro reproductor persistente te permite seguir navegando sin que la música se detenga.</p>
+
+            <h3>¿Por qué la radio se detiene o no reproduce (Error de Stream)? (SEO Key: Radio no funciona, Error de reproducción HTTP/HTTPS)</h3>
+            <p>El problema más común es el **error de Contenido Mixto (HTTP/HTTPS)**. TuRadio.lat es seguro (HTTPS), pero muchos streams de radio todavía usan el protocolo antiguo (HTTP). Nuestro sistema intenta automáticamente convertir el stream a HTTPS, y si no funciona, hace un segundo intento con el HTTP original después de un breve "Cargando..." (delay).</p>
+            <p>Si la radio sigue sin sonar, la razón es que el stream está temporalmente caído o ha sido cambiado por la emisora. En ese caso, por favor, repórtalo en nuestra página de <a href="contacto.html">Contacto</a>.</p>
+
+            <h3>¿Cómo puedo buscar una radio específica? (SEO Key: Buscar frecuencia de radio)</h3>
+            <p>Puedes usar la barra de búsqueda en la parte superior. Puedes buscar por:</p>
+            <ul>
+                <li><strong>Nombre de la radio:</strong> "Radio Corazón", "La 100".</li>
+                <li><strong>Frecuencia y País:</strong> "106.5 Paraguay" o "97.0 Argentina".</li>
+                <li><strong>País o Género:</strong> "Radios de Cumbia", "Radios de Paraguay".</li>
+            </ul>
+
+            <h3>¿Cómo puedo hacer que mi radio aparezca en la lista? (SEO Key: Agregar radio a TuRadio.lat)</h3>
+            <p>¡Nos encanta agregar nuevas estaciones de radio de Latinoamérica! Si tienes una emisora con un stream estable y público, envíanos la siguiente información a <a href="mailto:soporte@lfaftech.com">soporte@lfaftech.com</a>:</p>
+            <ol>
+                <li>Nombre de la Estación.</li>
+                <li>País y Ciudad (Opcional).</li>
+                <li>URL del Stream (esencial, preferiblemente HTTPS).</li>
+                <li>Logo de la estación (opcional, ayuda al SEO visual).</li>
+            </ol>
+            <p>Nuestro equipo revisará y agregará la radio en el menor tiempo posible.</p>
+
+            <h3>¿Necesito instalar algo o pagar por el servicio?</h3>
+            <p>No. TuRadio.lat es **completamente gratuito** y accesible desde cualquier navegador (Chrome, Safari, Firefox). No necesitas descargar ninguna aplicación o plugin para escuchar las radios en tu celular o computadora.</p>
+
+            <h3>¿La radio sigue sonando si navego a otra página?</h3>
+            <p>¡Sí! Gracias a nuestra tecnología SPA (Single Page Application) y el reproductor persistente, la radio seguirá sonando aunque explores otras listas, búsquedas o la página de detalle. Si quieres detenerla, simplemente usa el botón 'X' en la barra inferior.</p>
+            
+            <p style="margin-top: 2rem; font-style: italic;">Si tu pregunta no ha sido respondida, por favor visita nuestra página de <a href="contacto.html">Contacto</a>.</p>
+        </div>
+    </div>
+</main>
+
+<div id="player-bar"> 
+    <div class="player-content-wrapper">
+        <div class="player-minimized-view">
+            <div id="player-info" class="player-info"> 
+                <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
+                <div class="player-info-text">
+                    <h4 id="player-nombre">Selecciona una radio</h4>
+                    <p id="player-pais">...para comenzar a escuchar</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button id="play-pause-btn" class="player-btn control-center large-btn" aria-label="Reproducir o Pausar">
+                    <i class="fas fa-play" id="player-play-icon"></i>
+                    <i class="fas fa-pause" id="player-pause-icon" style="display:none;"></i>
+                </button>
+                <audio id="audio-player"></audio> 
+            </div>
+            <div class="player-buttons">
+                <button id="player-close-btn" class="player-btn" aria-label="Cerrar reproductor">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="main-footer">
+    <div class="container footer-content">
+        <div class="footer-section about">
+            <h3>TuRadio.lat</h3>
+            <p>El portal de radios #1 de Latinoamérica. Sintoniza miles de estaciones en vivo. Una plataforma de LFAF Tech.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Navegación</h4>
+            <ul>
+                <li><a href="index.html?filtro=populares" data-spa-link>Radios Populares</a></li>
+                <li><a href="index.html?filtro=generos" data-spa-link>Buscar por Género</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-section links-legal">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                <li><a href="terminos.html">Términos y Condiciones</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social">
+            <h4>Síguenos</h4>
+            <ul style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                <li><a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2024 TuRadio.lat | Una plataforma de <a href="https://lfaftech.com" target="_blank">LFAF Tech</a>
+    </div>
+</footer>
+
+</body>
+</html>

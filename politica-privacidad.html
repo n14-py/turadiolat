@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Política de Privacidad - Datos y Seguridad en TuRadio.lat</title>
+    <meta name="description" content="Lea cómo TuRadio.lat y LFAF Tech recopilan y protegen su información. Nos enfocamos en la privacidad, no almacenamos datos personales ni contenido de los streams de radio en vivo.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <script src="app.js" defer></script>
+    <link rel="sitemap" type="application/xml" title="Sitemap Radios" href="https://lfaftechapi.onrender.com/api/radio/sitemap.xml" />
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="container">
+        <a href="index.html?filtro=populares" class="logo" data-spa-link>
+            <i class="fas fa-broadcast-tower"></i> TuRadio.lat
+        </a>
+        
+        <ul class="nav-links desktop-menu">
+            <li><a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Populares</a></li>
+            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Géneros</a></li>
+            <li class="dropdown">
+                <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
+                <ul id="dropdown-paises" class="dropdown-menu"><li><a href="#">Cargando...</a></li></ul>
+            </li>
+            <li><a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a></li>
+            <li><a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a></li>
+        </ul>
+
+        <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
+    </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-header"><button id="menu-close" class="menu-close">&times;</button></div>
+    <div class="mobile-menu-content">
+        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Radios Populares</a>
+        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Buscar por Género</a>
+        <hr><div id="mobile-paises"><a href="#" class="nav-link">Cargando países...</a></div><hr>
+        <a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a>
+        <a href="preguntas-frecuentes.html" class="nav-link">Preguntas Frecuentes</a>
+        <a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a>
+    </div>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<main class="container">
+    <div class="main-content">
+        <div class="static-page-container">
+            <h1 style="color: var(--color-primario); border-bottom: 3px solid var(--color-primario); padding-bottom: 10px; margin-bottom: 1.5rem;">Política de Privacidad</h1>
+            <p>Última actualización: Noviembre de 2025</p>
+
+            <p>En TuRadio.lat, operado por LFAF Tech, valoramos enormemente su privacidad. Nuestra política es simple: **minimizamos la recopilación de datos personales** y nos enfocamos en ofrecer un servicio de streaming de radio rápido y seguro.</p>
+
+            <h2>1. Información que NO Recopilamos</h2>
+            <p>Cuando usted utiliza TuRadio.lat para escuchar estaciones de radio en vivo de Latinoamérica (Paraguay, Argentina, Chile, etc.), nosotros **no** recopilamos, almacenamos ni procesamos la siguiente información personal identificable:</p>
+            <ul>
+                <li>Nombres, direcciones de correo electrónico o números de teléfono.</li>
+                <li>Ubicación GPS precisa o datos de contacto.</li>
+                <li>Información de pago o credenciales de inicio de sesión, ya que el servicio es gratuito y no requiere registro.</li>
+            </ul>
+
+            <h2>2. Información Recopilada (Datos de Uso Anónimos)</h2>
+            <p>Para mantener la calidad del servicio, garantizar la estabilidad y comprender las tendencias de uso, podemos recopilar la siguiente información de forma **anónima y agregada**:</p>
+            <ul>
+                <li><strong>Dirección IP:</strong> Se utiliza únicamente para determinar la región geográfica aproximada (país) del usuario para fines estadísticos y legales. No se vincula a su identidad.</li>
+                <li><strong>Cookies y Tecnologías Similares:</strong> Utilizamos cookies para almacenar preferencias básicas (como el estado de reproducción de la última radio) y para el funcionamiento de herramientas de análisis de terceros (como Google Analytics, si se implementa).</li>
+                <li><strong>Datos de Uso del Servicio:</strong> Registramos qué estaciones de radio se sintonizan, el tiempo de escucha y los errores de reproducción, para diagnosticar problemas y mejorar la estabilidad del servicio.</li>
+            </ul>
+
+            <h2>3. El Contenido de la Radio</h2>
+            <p>TuRadio.lat es solo un directorio. Al hacer clic en una radio, usted establece una conexión directa entre su navegador y el servidor de streaming de la radiodifusora externa. **Nosotros no almacenamos ni interceptamos el contenido de audio**. La recopilación de datos de esa conexión externa está sujeta a las políticas de privacidad de la estación de radio original.</p>
+            <p>Nuestra API (operada por LFAF Tech) solo almacena metadatos de las estaciones (nombre, UUID, URL del stream) para la funcionalidad de búsqueda.</p>
+
+            <h2>4. Servicios de Terceros (Análisis y Publicidad)</h2>
+            <p>Para la monetización y el análisis de tráfico, podemos integrarnos con servicios de terceros. Estos proveedores pueden utilizar sus propias cookies para rastrear patrones de uso en nuestro sitio y otros sitios web con el fin de mostrar publicidad contextual. LFAF Tech no tiene control sobre estas cookies.</p>
+
+            <h2>5. Sus Derechos</h2>
+            <p>Dado que no almacenamos información personal identificable, la solicitud de acceso, rectificación o eliminación de datos personales no aplica para la mayoría de los usuarios. Si tiene alguna preocupación sobre los datos de uso anónimos recopilados, puede:</p>
+            <ul>
+                <li>Desactivar las cookies en la configuración de su navegador.</li>
+                <li>Utilizar herramientas de exclusión voluntaria ofrecidas por los proveedores de publicidad.</li>
+            </ul>
+
+            <h2>6. Cambios a esta Política</h2>
+            <p>Nos reservamos el derecho de actualizar esta Política de Privacidad en cualquier momento. Cualquier cambio significativo será notificado a través de una actualización de la fecha en la parte superior de esta página.</p>
+            
+            <p style="margin-top: 2rem;">Si tiene preguntas sobre esta política, por favor, contáctenos a través de <a href="mailto:soporte@lfaftech.com">soporte@lfaftech.com</a>.</p>
+        </div>
+    </div>
+</main>
+
+<div id="player-bar"> 
+    <div class="player-content-wrapper">
+        <div class="player-minimized-view">
+            <div id="player-info" class="player-info"> 
+                <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
+                <div class="player-info-text">
+                    <h4 id="player-nombre">Selecciona una radio</h4>
+                    <p id="player-pais">...para comenzar a escuchar</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button id="play-pause-btn" class="player-btn control-center large-btn" aria-label="Reproducir o Pausar">
+                    <i class="fas fa-play" id="player-play-icon"></i>
+                    <i class="fas fa-pause" id="player-pause-icon" style="display:none;"></i>
+                </button>
+                <audio id="audio-player"></audio> 
+            </div>
+            <div class="player-buttons">
+                <button id="player-close-btn" class="player-btn" aria-label="Cerrar reproductor">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="main-footer">
+    <div class="container footer-content">
+        <div class="footer-section about">
+            <h3>TuRadio.lat</h3>
+            <p>El portal de radios #1 de Latinoamérica. Sintoniza miles de estaciones en vivo. Una plataforma de LFAF Tech.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Navegación</h4>
+            <ul>
+                <li><a href="index.html?filtro=populares" data-spa-link>Radios Populares</a></li>
+                <li><a href="index.html?filtro=generos" data-spa-link>Buscar por Género</a></li>
+                <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-section links-legal">
+            <h4>Legal</h4>
+            <ul>
+                <li class="active"><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                <li><a href="terminos.html">Términos y Condiciones</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social">
+            <h4>Síguenos</h4>
+            <ul style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                <li><a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2024 TuRadio.lat | Una plataforma de <a href="https://lfaftech.com" target="_blank">LFAF Tech</a>
+    </div>
+</footer>
+
+</body>
+</html>

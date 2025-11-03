@@ -3,38 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>TuRadio.lat - Todas las radios de Latinoamérica en un solo lugar</title>
-    <meta name="description" content="Escucha miles de estaciones de radio en vivo de Argentina, México, Colombia, Paraguay, Chile, Perú y todo LATAM. Filtrado por país y género.">
-    
-    <meta property="og:title" content="TuRadio.lat - Radios de LATAM en vivo" />
-    <meta property="og:description" content="El portal líder para escuchar radios en vivo de toda Latinoamérica. Sintoniza gratis miles de estaciones." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://turadio.lat" />
-    <meta property="og:image" content="https://turadio.lat/images/og-image.png" />
+    <title>Términos y Condiciones de Uso | TuRadio.lat</title>
+    <meta name="description" content="Lee nuestros Términos y Condiciones de Uso. Información legal sobre el acceso y la utilización del servicio de streaming de radio en vivo de Latinoamérica proporcionado por TuRadio.lat.">
     
     <link rel="stylesheet" href="style.css">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <link rel="icon" href="images/favicon.png" type="image/png">
-    
     <script src="app.js" defer></script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-01KQHC4JWK"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-01KQHC4JWK');
-</script>
-<link rel="sitemap" type="application/xml" title="Sitemap Radios" href="https://lfaftechapi.onrender.com/api/radio/sitemap.xml" />
-
+    <link rel="sitemap" type="application/xml" title="Sitemap Radios" href="https://lfaftechapi.onrender.com/api/radio/sitemap.xml" />
 </head>
-
-
-
 <body>
 
 <header class="main-header">
@@ -44,67 +21,73 @@
         </a>
         
         <ul class="nav-links desktop-menu">
-            <li><a href="index.html?filtro=populares" class="nav-link active" data-filtro="populares" data-spa-link>Populares</a></li>
+            <li><a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Populares</a></li>
             <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Géneros</a></li>
-            
             <li class="dropdown">
                 <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
-                <ul id="dropdown-paises" class="dropdown-menu">
-                    <li><a href="#">Cargando...</a></li>
-                </ul>
+                <ul id="dropdown-paises" class="dropdown-menu"><li><a href="#">Cargando...</a></li></ul>
             </li>
             <li><a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a></li>
             <li><a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a></li>
         </ul>
 
-        <button id="menu-toggle" class="menu-toggle">
-            <i class="fas fa-bars"></i>
-        </button>
+        <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
     </nav>
 </header>
-
 <div id="mobile-menu" class="mobile-menu">
-    <div class="mobile-menu-header">
-        <button id="menu-close" class="menu-close">&times;</button>
-    </div>
+    <div class="mobile-menu-header"><button id="menu-close" class="menu-close">&times;</button></div>
     <div class="mobile-menu-content">
         <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Radios Populares</a>
         <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Buscar por Género</a>
-        <hr>
-        <div id="mobile-paises">
-             <a href="#" class="nav-link">Cargando países...</a>
-        </div>
-        <hr>
+        <hr><div id="mobile-paises"><a href="#" class="nav-link">Cargando países...</a></div><hr>
         <a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a>
         <a href="preguntas-frecuentes.html" class="nav-link">Preguntas Frecuentes</a>
         <a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a>
     </div>
 </div>
-
 <div id="overlay" class="overlay"></div>
 
 <main class="container">
     <div class="main-content">
-        
-        <form id="search-form" class="search-form" action="index.html" method="GET">
-            <input type="text" id="search-input" name="query" placeholder="Buscar radios, países o géneros..." value="" required>
-            <button type="submit" id="search-button"><i class="fas fa-search"></i></button>
-            <button type="button" id="clear-search-button" style="display:none;"><i class="fas fa-times"></i></button>
-        </form>
-        
-        <div id="page-container">
-            <div id="loading-message" class="loader-container">
-                <div class="loader"></div>
-                <p style="margin-top: 1rem; color: var(--color-texto-secundario);">Sintonizando...</p>
-            </div>
+        <div class="static-page-container">
+            <h1 style="color: var(--color-primario); border-bottom: 3px solid var(--color-primario); padding-bottom: 10px; margin-bottom: 1.5rem;">Términos y Condiciones de Uso</h1>
+            <p>Última actualización: Noviembre de 2025</p>
+
+            <p>Bienvenido a TuRadio.lat, operado por LFAF Tech. Al acceder y utilizar este servicio, usted acepta estar legalmente obligado por los siguientes términos y condiciones ("Términos de Uso"). Si no está de acuerdo con estos términos, le rogamos no utilice nuestra plataforma.</p>
+
+            <h2>1. Naturaleza del Servicio y Uso Aceptable</h2>
+            <p>TuRadio.lat es un directorio y un reproductor que facilita el acceso a transmisiones de radio públicas a través de Internet ("streams"). Nuestro servicio actúa como un intermediario tecnológico para sintonizar contenido de radiodifusoras de Latinoamérica (Argentina, Paraguay, México, Colombia, etc.) que ya están disponibles públicamente en la web.</p>
+            <ul>
+                <li>El uso del servicio es gratuito para fines personales y no comerciales.</li>
+                <li>Usted no debe utilizar nuestra plataforma para redistribuir, grabar o modificar el contenido de los streams de radio.</li>
+                <li>Queda prohibido cualquier intento de ingeniería inversa, hackeo o interrupción del servicio de streaming.</li>
+            </ul>
+
+            <h2>2. Derechos de Autor y Propiedad Intelectual</h2>
+            <p>La música, programas, noticias y cualquier otro contenido transmitido a través de nuestra plataforma es propiedad de sus respectivas estaciones de radio o de los titulares de derechos de autor originales. TuRadio.lat solo proporciona el enlace para el streaming.</p>
+            <p>Si usted es un titular de derechos de autor y cree que su contenido ha sido enlazado de forma indebida o requiere su remoción, por favor, contáctenos inmediatamente a través de <a href="mailto:soporte@lfaftech.com">soporte@lfaftech.com</a>. Actuaremos rápidamente para cumplir con cualquier solicitud legal de remoción.</p>
+
+            <h2>3. Limitación de Responsabilidad</h2>
+            <p>TuRadio.lat no garantiza la disponibilidad ininterrumpida, la calidad o la legalidad de los streams de radio. Las interrupciones en el servicio (como el error de stream) son responsabilidad de la emisora o del proveedor de la señal.</p>
+            <ul>
+                <li>El usuario acepta que utiliza el servicio bajo su propio riesgo.</li>
+                <li>LFAF Tech no será responsable por ningún daño directo, indirecto, incidental o consecuente que resulte del uso o la imposibilidad de usar el servicio.</li>
+                <li>Hacemos un esfuerzo constante por actualizar nuestros enlaces y eliminar radios que ya no funcionan, pero no ofrecemos garantía sobre su precisión.</li>
+            </ul>
+
+            <h2>4. Modificaciones a los Términos</h2>
+            <p>Nos reservamos el derecho de modificar estos Términos de Uso en cualquier momento y sin previo aviso. Es responsabilidad del usuario revisar periódicamente esta página para estar al tanto de los cambios.</p>
+
+            <h2>5. Ley Aplicable</h2>
+            <p>Estos Términos de Uso se regirán e interpretarán de conformidad con las leyes de la República de Paraguay, sin dar efecto a ningún principio de conflicto de leyes. Cualquier disputa legal será resuelta en los tribunales competentes de Asunción, Paraguay.</p>
+            
+            <p style="margin-top: 2rem;">Al usar TuRadio.lat, usted reconoce que ha leído y entendido estos Términos y Condiciones, y acepta cumplirlos.</p>
         </div>
-        
     </div>
 </main>
 
 <div id="player-bar"> 
     <div class="player-content-wrapper">
-        
         <div class="player-minimized-view">
             <div id="player-info" class="player-info"> 
                 <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
@@ -113,7 +96,6 @@
                     <p id="player-pais">...para comenzar a escuchar</p>
                 </div>
             </div>
-            
             <div class="player-controls">
                 <button id="play-pause-btn" class="player-btn control-center large-btn" aria-label="Reproducir o Pausar">
                     <i class="fas fa-play" id="player-play-icon"></i>
@@ -121,14 +103,12 @@
                 </button>
                 <audio id="audio-player"></audio> 
             </div>
-            
             <div class="player-buttons">
                 <button id="player-close-btn" class="player-btn" aria-label="Cerrar reproductor">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
         </div>
-
     </div>
 </div>
 <footer class="main-footer">
@@ -151,7 +131,7 @@
             <h4>Legal</h4>
             <ul>
                 <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
-                <li><a href="terminos.html">Términos y Condiciones</a></li>
+                <li class="active"><a href="terminos.html">Términos y Condiciones</a></li>
             </ul>
         </div>
         <div class="footer-section social">

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nosotros - La Misión de TuRadio.lat y LFAF Tech en Latinoamérica</title>
+    <meta name="description" content="Descubre quiénes somos, nuestra visión de la radio digital y cómo estamos construyendo el portal más completo para escuchar estaciones en vivo de Argentina, México, Paraguay, Chile y toda la región LATAM.">
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <script src="app.js" defer></script>
+    <link rel="sitemap" type="application/xml" title="Sitemap Radios" href="https://lfaftechapi.onrender.com/api/radio/sitemap.xml" />
+</head>
+<body>
+
+<header class="main-header">
+    <nav class="container">
+        <a href="index.html?filtro=populares" class="logo" data-spa-link>
+            <i class="fas fa-broadcast-tower"></i> TuRadio.lat
+        </a>
+        
+        <ul class="nav-links desktop-menu">
+            <li><a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Populares</a></li>
+            <li><a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Géneros</a></li>
+            <li class="dropdown">
+                <a href="#" class="nav-link">Países <i class="fas fa-chevron-down"></i></a>
+                <ul id="dropdown-paises" class="dropdown-menu"><li><a href="#">Cargando...</a></li></ul>
+            </li>
+            <li class="active"><a href="sobre-nosotros.html" class="nav-link">Sobre Nosotros</a></li>
+            <li><a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a></li>
+        </ul>
+
+        <button id="menu-toggle" class="menu-toggle"><i class="fas fa-bars"></i></button>
+    </nav>
+</header>
+<div id="mobile-menu" class="mobile-menu">
+    <div class="mobile-menu-header"><button id="menu-close" class="menu-close">&times;</button></div>
+    <div class="mobile-menu-content">
+        <a href="index.html?filtro=populares" class="nav-link" data-filtro="populares" data-spa-link>Radios Populares</a>
+        <a href="index.html?filtro=generos" class="nav-link" data-filtro="generos" data-spa-link>Buscar por Género</a>
+        <hr><div id="mobile-paises"><a href="#" class="nav-link">Cargando países...</a></div><hr>
+        <a href="sobre-nosotros.html" class="nav-link active">Sobre Nosotros</a>
+        <a href="preguntas-frecuentes.html" class="nav-link">Preguntas Frecuentes</a>
+        <a href="contacto.html" class="nav-link" data-filtro="contacto">Contacto</a>
+    </div>
+</div>
+<div id="overlay" class="overlay"></div>
+
+<main class="container">
+    <div class="main-content">
+        <div class="static-page-container">
+            <h1 style="color: var(--color-primario); border-bottom: 3px solid var(--color-primario); padding-bottom: 10px; margin-bottom: 1.5rem;">Nuestra Misión: Conectar Latinoamérica con la Radio Digital</h1>
+            <p>TuRadio.lat nació de una visión simple pero poderosa de **LFAF Tech**: crear el portal más rápido, estable y completo para escuchar **radios en vivo de Latinoamérica**. En un mundo donde el contenido se dispersa, la radio sigue siendo un punto de conexión vital, y nuestro objetivo es centralizar miles de estaciones en una sola plataforma de fácil acceso, optimizada para dispositivos móviles.</p>
+
+            <h2>¿Quiénes Somos y Qué Hacemos?</h2>
+            <p>Somos un proyecto desarrollado y mantenido por **LFAF Tech**, una empresa de tecnología enfocada en la creación de soluciones digitales escalables para la región de habla hispana y portuguesa. Utilizamos tecnología de punta, incluyendo una API centralizada con MongoDB, para garantizar que nuestra base de datos esté siempre actualizada y que el rendimiento sea excelente en cualquier país, desde Paraguay hasta México.</p>
+
+            <h3>Nuestra Propuesta de Valor y Filosofía</h3>
+            <p>Nos diferenciamos por nuestro enfoque en la experiencia del usuario y la calidad del servicio:</p>
+            <ul style="list-style: disc; padding-left: 20px;">
+                <li><strong>Estabilidad y Velocidad:</strong> Priorizamos un código ligero y servidores optimizados para ofrecer **streaming de radio instantáneo** y minimizar los cortes o el *buffering*.</li>
+                <li><strong>Enfoque Regional:</strong> A diferencia de otros portales globales, nuestra curación y enfoque están 100% en la cultura, géneros y países de Latinoamérica (Argentina, Chile, Perú, Paraguay, Colombia, etc.), incluyendo una amplia selección de géneros como la Cumbia, Reggaetón y Música Regional.</li>
+                <li><strong>Experiencia Móvil Perfecta:</strong> Entendemos que la mayoría de nuestros usuarios nos sintonizan desde su celular. Por ello, el diseño es **totalmente responsive**, asegurando que el reproductor persistente y la navegación sean intuitivos y fluidos en cualquier smartphone.</li>
+            </ul>
+            <p>Más que un simple directorio, somos una herramienta de descubrimiento. Te permitimos filtrar por país (ej. solo radios de Paraguay), buscar por género o encontrar frecuencias específicas. Nuestro sistema de reproducción persistente garantiza que puedas navegar por el sitio, consultar información o buscar otra radio sin que tu música se detenga.</p>
+
+            <h2>Compromiso con las Emisoras y Transparencia</h2>
+            <p>Respetamos profundamente la labor de las emisoras. Nuestra plataforma es una forma de **expandir su audiencia** digital sin costo. Si usted es dueño de una estación de radio y:</p>
+            <ul style="list-style: disc; padding-left: 20px;">
+                <li>Desea que su información o logo se actualice.</li>
+                <li>Requiere la remoción inmediata de su stream.</li>
+                <li>Busca oportunidades de publicidad o alianzas.</li>
+            </ul>
+            <p>Le invitamos a contactarnos directamente. Nuestro código está diseñado para ser respetuoso con el uso de recursos y dar visibilidad a la **radio tradicional** en el entorno digital moderno.</p>
+            
+            <p style="margin-top: 2rem; font-style: italic;">Gracias por sintonizar con nosotros. Nuestro compromiso es brindarte la mejor experiencia de radio en vivo de Latinoamérica.</p>
+        </div>
+    </div>
+</main>
+
+<div id="player-bar"> 
+    <div class="player-content-wrapper">
+        <div class="player-minimized-view">
+            <div id="player-info" class="player-info"> 
+                <img id="player-logo" src="images/placeholder-radio.png" alt="logo de la radio">
+                <div class="player-info-text">
+                    <h4 id="player-nombre">Selecciona una radio</h4>
+                    <p id="player-pais">...para comenzar a escuchar</p>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button id="play-pause-btn" class="player-btn control-center large-btn" aria-label="Reproducir o Pausar">
+                    <i class="fas fa-play" id="player-play-icon"></i>
+                    <i class="fas fa-pause" id="player-pause-icon" style="display:none;"></i>
+                </button>
+                <audio id="audio-player"></audio> 
+            </div>
+            <div class="player-buttons">
+                <button id="player-close-btn" class="player-btn" aria-label="Cerrar reproductor">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="main-footer">
+    <div class="container footer-content">
+        <div class="footer-section about">
+            <h3>TuRadio.lat</h3>
+            <p>El portal de radios #1 de Latinoamérica. Sintoniza miles de estaciones en vivo. Una plataforma de LFAF Tech.</p>
+        </div>
+        <div class="footer-section links">
+            <h4>Navegación</h4>
+            <ul>
+                <li><a href="index.html?filtro=populares" data-spa-link>Radios Populares</a></li>
+                <li><a href="index.html?filtro=generos" data-spa-link>Buscar por Género</a></li>
+                <li><a href="sobre-nosotros.html">Sobre Nosotros</a></li>
+                <li><a href="preguntas-frecuentes.html">Preguntas Frecuentes</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
+            </ul>
+        </div>
+        <div class="footer-section links-legal">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="politica-privacidad.html">Política de Privacidad</a></li>
+                <li><a href="terminos.html">Términos y Condiciones</a></li>
+            </ul>
+        </div>
+        <div class="footer-section social">
+            <h4>Síguenos</h4>
+            <ul style="display: flex; gap: 1rem; font-size: 1.5rem;">
+                <li><a href="#" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="#" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        &copy; 2024 TuRadio.lat | Una plataforma de <a href="https://lfaftech.com" target="_blank">LFAF Tech</a>
+    </div>
+</footer>
+
+</body>
+</html>
