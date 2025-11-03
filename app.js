@@ -84,77 +84,70 @@ document.addEventListener('DOMContentLoaded', () => {
     /**
      * Inicia la reproducción de una estación.
      */
-// BUSCAR Y REEMPLAZAR LA FUNCIÓN playStation COMPLETA (LÍNEA 75 A 148 APROX.)
+    async function playStation(station) {
+        if (!elements.audioPlayer || !elements.playerBar || !elements.playPauseBtn) return;
+        
+        globalState.currentPlaying = station; 
+        globalState.isPaused = false;
+        
+        // Añadir clase de carga e inhabilitar temporalmente el botón
+        elements.playPauseBtn.classList.add('is-loading');
+        elements.playPauseBtn.disabled = true;
 
-/**
- * Inicia la reproducción de una estación.
- */
-async function playStation(station) {
-    if (!elements.audioPlayer || !elements.playerBar || !elements.playPauseBtn) return;
-    
-    globalState.currentPlaying = station; 
-    globalState.isPaused = false;
-    
-    // Añadir clase de carga e inhabilitar temporalmente el botón
-    elements.playPauseBtn.classList.add('is-loading');
-    elements.playPauseBtn.disabled = true;
-
-    // 1. Manejo del logo (Intento de obtener mejor logo si falta)
-    let finalLogo = station.logo || PLACEHOLDER_LOGO;
-    if (!station.logo || station.logo === PLACEHOLDER_LOGO) {
-        const betterLogo = await getBetterLogo(station.uuid);
-        if (betterLogo) {
-            finalLogo = betterLogo;
-            station.logo = betterLogo; // Actualizar el objeto station en memoria
+        // 1. Manejo del logo (Intento de obtener mejor logo si falta)
+        let finalLogo = station.logo || PLACEHOLDER_LOGO;
+        if (!station.logo || station.logo === PLACEHOLDER_LOGO) {
+            const betterLogo = await getBetterLogo(station.uuid);
+            if (betterLogo) {
+                finalLogo = betterLogo;
+                station.logo = betterLogo; // Actualizar el objeto station en memoria
+            }
         }
-    }
 
-    // 2. Actualizar la UI
-    elements.playerLogo.src = finalLogo;
-    elements.playerLogo.onerror = () => { elements.playerLogo.src = PLACEHOLDER_LOGO; };
-    elements.playerNombre.textContent = station.nombre;
-    elements.playerPais.textContent = station.pais;
-    setPauseIcon(); 
+        // 2. Actualizar la UI
+        elements.playerLogo.src = finalLogo;
+        elements.playerLogo.onerror = () => { elements.playerLogo.src = PLACEHOLDER_LOGO; };
+        elements.playerNombre.textContent = station.nombre;
+        elements.playerPais.textContent = station.pais;
+        setPauseIcon(); 
 
-    // 3. Establecer la fuente de audio (con fallback HTTPS)
-    const httpsUrl = sanitizeStreamUrl(station.stream_url);
-    elements.audioPlayer.src = httpsUrl;
-    
-    // 4. Iniciar la reproducción con un pequeño delay de carga
-    setTimeout(() => {
-        elements.audioPlayer.play()
-            .then(() => {
-                elements.playerBar.classList.add('active');
-                // Quitar clase de carga al iniciar exitosamente
-                elements.playPauseBtn.classList.remove('is-loading');
-                elements.playPauseBtn.disabled = false;
-            })
-            .catch(error => {
-                // Fallback a HTTP si HTTPS falla
-                if (httpsUrl !== station.stream_url) {
-                    elements.audioPlayer.src = station.stream_url;
-                    elements.audioPlayer.play().then(() => {
-                        elements.playerBar.classList.add('active');
-                    }).catch(httpError => {
-                        console.error(`Error final al reproducir ${station.nombre}:`, httpError.message);
-                        setPlayIcon(); 
+        // 3. Establecer la fuente de audio (con fallback HTTPS)
+        const httpsUrl = sanitizeStreamUrl(station.stream_url);
+        elements.audioPlayer.src = httpsUrl;
+        
+        // 4. Iniciar la reproducción con un pequeño delay de carga
+        setTimeout(() => {
+            elements.audioPlayer.play()
+                .then(() => {
+                    elements.playerBar.classList.add('active');
+                    // Quitar clase de carga al iniciar exitosamente
+                    elements.playPauseBtn.classList.remove('is-loading');
+                    elements.playPauseBtn.disabled = false;
+                })
+                .catch(error => {
+                    // Fallback a HTTP si HTTPS falla
+                    if (httpsUrl !== station.stream_url) {
+                        elements.audioPlayer.src = station.stream_url;
+                        elements.audioPlayer.play().then(() => {
+                            elements.playerBar.classList.add('active');
+                        }).catch(httpError => {
+                            console.error(`Error final al reproducir ${station.nombre}:`, httpError.message);
+                            setPlayIcon(); 
+                            globalState.isPaused = true;
+                            alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir.`);
+                        });
+                    } else {
+                        console.error(`Error al reproducir ${station.nombre}:`, error.message);
+                        setPlayIcon();
                         globalState.isPaused = true;
-                        alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir.`);
-                    });
-                } else {
-                    console.error(`Error al reproducir ${station.nombre}:`, error.message);
-                    setPlayIcon();
-                    globalState.isPaused = true;
-                    alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir. Problema de streaming.`);
-                }
-                // Quitar clase de carga después del intento fallido/fallback
-                elements.playPauseBtn.classList.remove('is-loading');
-                elements.playPauseBtn.disabled = false;
-            });
-    }, 300); // 300ms de delay/carga simulada
-}
-
-// RESTO DE CÓDIGO JS SIN CAMBIOS EN ESTE PASO
+                        alert(`⚠️ La estación '${station.nombre}' no se pudo reproducir. Problema de streaming.`);
+                    }
+                    // Quitar clase de carga después del intento fallido/fallback
+                    elements.playPauseBtn.classList.remove('is-loading');
+                    elements.playPauseBtn.disabled = false;
+                });
+        }, 300); // 300ms de delay/carga simulada
+    }
 
     function pauseStation() {
         if (elements.audioPlayer) {
@@ -173,6 +166,17 @@ async function playStation(station) {
             globalState.isPaused = true;
         }
     }
+
+    // --- ¡NUEVO! FUNCIÓN PARA FORMATEAR EL TEXTO DE LA IA ---
+    function formatDescription(text) {
+        if (!text) return '';
+        // Convierte saltos de línea (\n) en párrafos <p>
+        return text.split('\n')
+                   .filter(p => p.trim() !== '') // Evitar párrafos vacíos
+                   .map(p => `<p>${p.trim()}</p>`)
+                   .join('');
+    }
+    // ----------------------------------------------------
 
     function initPlayerControls() {
         // Botón CERRAR [X] (Stop)
@@ -482,6 +486,7 @@ async function playStation(station) {
     
     /**
      * Carga la vista de "Detalle de Radio" + Recomendadas.
+     * --- ¡¡AQUÍ ESTÁ EL CÓDIGO ACTUALIZADO!! ---
      */
     async function loadStationInfoPage(uuid) {
         showLoading("Cargando Información de la Radio...");
@@ -517,6 +522,21 @@ async function playStation(station) {
             const isPlayingThis = globalState.currentPlaying && globalState.currentPlaying.uuid === station.uuid && !globalState.isPaused;
             const buttonText = isPlayingThis ? 'Pausar' : 'Escuchar Ahora';
             const buttonIcon = isPlayingThis ? 'fa-pause' : 'fa-play';
+            
+            // --- ¡NUEVO! HTML para la Descripción de IA ---
+            let descriptionHTML = '';
+            if (station.descripcionGenerada && station.descripcionGenerada.trim() !== '') {
+                descriptionHTML = `
+                    <h3>Sobre ${station.nombre}</h3>
+                    <div class="station-info-description" id="radio-description">
+                        ${formatDescription(station.descripcionGenerada)}
+                    </div>
+                    <button id="toggle-desc-btn" class="toggle-description-btn">
+                        Leer más <i class="fas fa-chevron-down"></i>
+                    </button>
+                `;
+            }
+            // --- Fin de la nueva sección ---
 
             let pageHTML = `<h2 id="page-title" style="margin-bottom: 0;">Sintonizando</h2>`;
             
@@ -539,11 +559,13 @@ async function playStation(station) {
                             <ul>
                                 <li><strong>País:</strong> ${station.pais}</li>
                                 <li><strong>Popularidad:</strong> ${station.popularidad} votos</li>
-                                </ul>
+                            </ul>
+
+                            ${descriptionHTML}
                             
                             <h3>Géneros</h3>
                             <div class="station-info-tags">
-                                ${genres.map(g => `<a href="index.html?genero=${encodeURIComponent(g)}&pagina=1" class="tag-btn" data-spa-link>${g}</a>`).join('')}
+                                ${genres.length > 0 ? genres.map(g => `<a href="index.html?genero=${encodeURIComponent(g)}&pagina=1" class="tag-btn" data-spa-link>${g}</a>`).join('') : '<p style="color: var(--color-texto-secundario); font-size: 0.9rem;">No hay géneros específicos.</p>'}
                             </div>
                         </div>
                     </div>
@@ -589,6 +611,22 @@ async function playStation(station) {
             document.getElementById('back-button').addEventListener('click', () => {
                 history.back(); 
             });
+            
+            // --- ¡NUEVO! Evento para el botón "Leer más" ---
+            const toggleBtn = document.getElementById('toggle-desc-btn');
+            if (toggleBtn) {
+                toggleBtn.addEventListener('click', () => {
+                    const descDiv = document.getElementById('radio-description');
+                    descDiv.classList.toggle('expanded');
+                    
+                    if (descDiv.classList.contains('expanded')) {
+                        toggleBtn.innerHTML = 'Mostrar menos <i class="fas fa-chevron-up"></i>';
+                    } else {
+                        toggleBtn.innerHTML = 'Leer más <i class="fas fa-chevron-down"></i>';
+                    }
+                });
+            }
+            // --- Fin del nuevo evento ---
             
             elements.pageContainer.querySelectorAll('.btn-play').forEach(button => {
                 button.addEventListener('click', () => {

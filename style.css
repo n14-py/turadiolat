@@ -636,3 +636,67 @@ img { max-width: 100%; height: auto; display: block; }
     .nav-links { display: none; }
     .menu-toggle { display: block; }
 }
+
+
+
+/* ... (justo después de los estilos de .btn-back:hover) ... */
+
+/* --- ¡NUEVO! Estilos para la Descripción de IA --- */
+.station-info-description {
+    background-color: var(--color-fondo); /* Un fondo ligeramente diferente */
+    border-radius: var(--radio-borde);
+    border: 1px solid var(--borde-suave);
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    
+    /* El truco para colapsar: */
+    max-height: 200px; /* Muestra solo los primeros párrafos */
+    overflow: hidden;
+    position: relative;
+    transition: max-height 0.5s ease-in-out;
+}
+
+/* Sombra para indicar que hay más texto */
+.station-info-description::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(to bottom, transparent, var(--color-fondo));
+    pointer-events: none; /* Permite hacer clic "a través" de la sombra */
+}
+
+.station-info-description.expanded {
+    max-height: 2000px; /* Altura máxima para expandir */
+}
+
+.station-info-description.expanded::after {
+    display: none; /* Ocultar la sombra cuando está expandido */
+}
+
+/* Párrafos dentro de la descripción */
+.station-info-description p {
+    color: var(--color-texto-secundario);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem; /* Espacio entre párrafos */
+}
+
+/* Botón "Leer más" */
+.toggle-description-btn {
+    margin-top: 1rem;
+    background-color: var(--color-tarjeta-hover);
+    color: var(--color-texto-principal);
+    border: none;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.toggle-description-btn:hover {
+    background-color: #333;
+}
