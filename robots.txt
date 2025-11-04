@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Apuntamos al sitemap en tu dominio (Vercel se encargará de buscarlo)
+Sitemap: https://turadio.lat/sitemap.xml

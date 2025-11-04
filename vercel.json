@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://lfaftechapi.onrender.com/api/radio/sitemap.xml"
+    }
+  ]
+}
